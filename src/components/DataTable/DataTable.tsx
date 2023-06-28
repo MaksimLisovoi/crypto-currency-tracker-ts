@@ -56,12 +56,12 @@ export const DataTable = () => {
       getRowId={(row: any) => row.rank}
       rowHeight={70}
       columns={columns}
-      rowCount={100}
+      rowCount={300}
       //
       pagination
       paginationMode="server"
       loading={pageState.isLoading}
-      pageSizeOptions={[5, 10, 20]}
+      pageSizeOptions={[5, 10, 20, 50]}
       paginationModel={paginationModel}
       onPaginationModelChange={setPaginationModel}
       //

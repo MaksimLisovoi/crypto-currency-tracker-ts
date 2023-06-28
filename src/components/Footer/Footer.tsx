@@ -3,7 +3,7 @@ import { Copyright } from '../Copyright';
 export const Footer = () => {
   return (
     <Box component="footer">
-      <Copyright text="Crypto currency tracker" />
+      <Copyright text="Cryptocurrency tracker" />
     </Box>
   );
 };
