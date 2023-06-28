@@ -49,8 +49,6 @@ export const DataTable = () => {
   requestData.offset = paginationModel.page * paginationModel.pageSize;
   requestData.limit = paginationModel.pageSize;
 
-  console.log(pageState.currencies);
-
   return (
     <DataGrid
       autoHeight

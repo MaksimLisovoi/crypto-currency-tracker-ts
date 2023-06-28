@@ -2,12 +2,6 @@ import { Avatar, Box, Typography } from '@mui/material';
 
 import { GridRenderCellParams } from '@mui/x-data-grid';
 
-// type Coin = {
-//   title: string;
-//   descr: string;
-//   img: string;
-// };
-
 export const CoinBlock = (props: GridRenderCellParams<any>) => {
   const { row } = props;
   return (

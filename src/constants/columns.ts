@@ -5,11 +5,12 @@ import { DayCell } from '../components/DayCell';
 import { HourCell } from '../components/HourCell';
 
 export const columns:GridColDef[] = [
-  { field: 'rank', headerName: '#', width: 70 },
+  { field: 'rank', headerName: '#', width: 70 , },
   {
     field: 'name',
     headerName: 'Coin',
     width: 100,
+   
     renderCell: CoinBlock,
   },
   {
@@ -18,20 +19,21 @@ export const columns:GridColDef[] = [
     type: 'number',
     width: 120,
     valueGetter: columnFuncs.roundSum,
+    valueFormatter: (params) => columnFuncs.valueFormatter(params, '$', 'left')
   },
   {
     field: 'cap',
     headerName: 'Market Cap',
     type: 'number',
     width: 120,
-    valueGetter: columnFuncs.convertToShirt,
+    valueFormatter: (params) => columnFuncs.valueFormatter(params, '$', 'both')
   },
   {
     field: 'volume',
     headerName: 'Volume 24h',
     type: 'number',
     width: 120,
-    valueGetter: columnFuncs.convertToShirt,
+     valueFormatter: (params) => columnFuncs.valueFormatter(params, '$', 'both')
   },
   {
     field: 'allTimeHighUSD',
@@ -39,12 +41,14 @@ export const columns:GridColDef[] = [
     type: 'number',
     width: 120,
     valueGetter: columnFuncs.roundSum,
+    valueFormatter: (params) => columnFuncs.valueFormatter(params, '$', 'left')
   },
    {
     field: 'day',
     headerName: '24h',
     type: 'number',
-    width: 120,
+     width: 120,
+     sortable: false,
      renderCell: DayCell,
   
   
@@ -54,6 +58,8 @@ export const columns:GridColDef[] = [
     headerName: '1h',
     type: 'number',
     width: 120,
-   renderCell: HourCell,
+     sortable: false,
+    renderCell: HourCell,
+ 
   },
 ];
