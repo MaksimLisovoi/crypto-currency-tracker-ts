@@ -28,17 +28,16 @@ export const DataTable = () => {
     getCurrencyList().then(data =>
       setPageState(prevState => ({ ...prevState, currencies: data, isLoading: false })),
     );
-    //
-    //
-    // const timerId = setInterval(() => {
-    //   getCurrencyList().then(data =>
-    //     setPageState(prevState => ({ ...prevState, currencies: data })),
-    //   );
-    // }, 4000);
 
-    // return () => {
-    //   clearInterval(timerId);
-    // };
+    const timerId = setInterval(() => {
+      getCurrencyList().then(data =>
+        setPageState(prevState => ({ ...prevState, currencies: data })),
+      );
+    }, 4000);
+
+    return () => {
+      clearInterval(timerId);
+    };
   }, [paginationModel.page, paginationModel.pageSize]);
 
   useEffect(() => {
