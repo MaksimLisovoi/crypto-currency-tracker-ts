@@ -22,7 +22,17 @@ const roundSum = (params: GridRenderCellParams<any>) => {
     return params.value;
   }
   // Convert the decimal value to a percentage
-  return `$${params.value.toFixed(2)}`;
+  return `${params.value.toFixed(2)}`;
 };
 
-export { convertToShirt, roundSum };
+  const checkTextColor = (value: any) => {
+    if (value === 0) {
+      return '';
+    } else if (value < 0) {
+      return 'error.light';
+    } else if (value > 0) {
+      return 'success.light';
+    }
+  };
+
+export { convertToShirt, roundSum , checkTextColor };

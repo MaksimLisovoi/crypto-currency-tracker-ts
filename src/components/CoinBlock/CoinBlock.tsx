@@ -1,4 +1,5 @@
 import { Avatar, Box, Typography } from '@mui/material';
+
 import { GridRenderCellParams } from '@mui/x-data-grid';
 
 // type Coin = {

@@ -1,16 +1,15 @@
-import { DataGrid, GridRowSelectionModel, useGridApiRef } from '@mui/x-data-grid';
+import { DataGrid, GridRowSelectionModel } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import { columns } from '../../constants/columns';
-import { getCurrencyList } from '../../services/coinDbApi';
 import { requestData } from '../../constants/requestData';
 import * as localStorageService from '../../services/storage';
+import { getCurrencyList } from '../../services/coinDbApi';
 
 export const DataTable = () => {
   interface Idata {
     isLoading: boolean;
     currencies: any;
   }
-  const apiRef = useGridApiRef();
 
   const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
 
@@ -24,33 +23,42 @@ export const DataTable = () => {
     page: 0,
   });
 
-  requestData.offset = paginationModel.page * paginationModel.pageSize;
-  requestData.limit = paginationModel.pageSize;
+  useEffect(() => {
+    setPageState(prevState => ({ ...prevState, isLoading: true }));
+    getCurrencyList().then(data =>
+      setPageState(prevState => ({ ...prevState, currencies: data, isLoading: false })),
+    );
+    //
+    //
+    // const timerId = setInterval(() => {
+    //   getCurrencyList().then(data =>
+    //     setPageState(prevState => ({ ...prevState, currencies: data })),
+    //   );
+    // }, 4000);
+
+    // return () => {
+    //   clearInterval(timerId);
+    // };
+  }, [paginationModel.page, paginationModel.pageSize]);
 
   useEffect(() => {
     const selectedRowsFromLS = localStorageService.load('selectedItems');
     setRowSelectionModel(selectedRowsFromLS);
-    console.log(selectedRowsFromLS);
   }, []);
 
-  useEffect(() => {
-    setPageState(old => ({ ...old, isLoading: true }));
-    getCurrencyList().then(data =>
-      setPageState(prevState => ({ ...prevState, currencies: data, isLoading: false })),
-    );
-  }, [paginationModel.page, paginationModel.pageSize]);
+  requestData.offset = paginationModel.page * paginationModel.pageSize;
+  requestData.limit = paginationModel.pageSize;
+
+  console.log(pageState.currencies);
 
   return (
     <DataGrid
       autoHeight
-      getRowId={row => row.rank}
-      apiRef={apiRef}
       rows={pageState.currencies}
+      getRowId={(row: any) => row.rank}
       rowHeight={70}
       columns={columns}
       rowCount={100}
-      //
-      //
       //
       pagination
       paginationMode="server"
@@ -59,9 +67,6 @@ export const DataTable = () => {
       paginationModel={paginationModel}
       onPaginationModelChange={setPaginationModel}
       //
-      //
-      //
-
       checkboxSelection
       onRowSelectionModelChange={newRowSelectionModel => {
         setRowSelectionModel(newRowSelectionModel);
@@ -70,6 +75,7 @@ export const DataTable = () => {
       }}
       rowSelectionModel={rowSelectionModel}
       keepNonExistentRowsSelected
+      //
       sx={{
         p: 2,
         boxShadow: 2,
@@ -82,13 +88,6 @@ export const DataTable = () => {
         },
         fontSize: 16,
       }}
-
-      // rowCount={rowCountState}
-      // loading={isLoading}
-      // pageSizeOptions={[5]}
-      // paginationModel={paginationModel}
-      // paginationMode="server"
-      // onPaginationModelChange={setPaginationModel}
     />
   );
 };
