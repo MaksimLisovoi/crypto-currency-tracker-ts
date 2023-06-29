@@ -54,7 +54,7 @@ export const columns: GridColDef[] = [
     field: 'hour',
     headerName: '1h',
     type: 'number',
-    width: 120,
+    minWidth: 120,
     sortable: false,
     renderCell: props => TimeCell(props, 'hour'),
   },

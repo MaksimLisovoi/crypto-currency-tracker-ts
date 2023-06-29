@@ -1,7 +1,7 @@
 import { DataGrid, GridRowSelectionModel } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import { columns } from '../../constants/columns';
-import { requestData } from '../../constants/requestData';
+import * as requestData from '../../constants/requestData';
 import * as localStorageService from '../../services/storage';
 import { getCurrencyList } from '../../services/coinDbApi';
 
@@ -23,9 +23,12 @@ export const DataTable = () => {
     page: 0,
   });
 
+  const offset = paginationModel.page * paginationModel.pageSize;
+  const limit = paginationModel.pageSize;
+
   useEffect(() => {
     setPageState(prevState => ({ ...prevState, isLoading: true }));
-    getCurrencyList().then(data =>
+    getCurrencyList(offset, limit).then(data =>
       setPageState(prevState => ({ ...prevState, currencies: data, isLoading: false })),
     );
 
@@ -45,9 +48,6 @@ export const DataTable = () => {
     setRowSelectionModel(selectedRowsFromLS);
   }, []);
 
-  requestData.offset = paginationModel.page * paginationModel.pageSize;
-  requestData.limit = paginationModel.pageSize;
-
   return (
     <DataGrid
       autoHeight
@@ -65,6 +65,7 @@ export const DataTable = () => {
       onPaginationModelChange={setPaginationModel}
       //
       checkboxSelection
+      disableRowSelectionOnClick
       onRowSelectionModelChange={newRowSelectionModel => {
         setRowSelectionModel(newRowSelectionModel);
         console.log(newRowSelectionModel);

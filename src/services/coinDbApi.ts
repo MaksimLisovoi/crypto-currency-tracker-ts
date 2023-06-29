@@ -1,7 +1,8 @@
 import axios from 'axios';
 import * as errorCatcher from './errorCatcher';
- 
-import { requestData } from '../constants/requestData'
+import * as requestData from '../constants/requestData';
+
+const { listBody, coinInfoBody } = requestData;
 
 let baseUrl = `https://api.livecoinwatch.com/`;
 
@@ -11,11 +12,27 @@ const config = {
   },
 };
 
-export async function getCurrencyList() {
+export async function getCurrencyList(offset: number, limit: number) {
   try {
-    const allCurrencies = await axios.post(`${baseUrl}coins/list`, requestData, config);
+    listBody.offset = offset;
+    listBody.limit = limit;
+    const allCurrencies = await axios.post(`${baseUrl}coins/list`, requestData.listBody, config);
     return allCurrencies.data;
   } catch (error) {
-  errorCatcher.reportError({message: errorCatcher.getErrorMessage(error)})
+    errorCatcher.reportError({ message: errorCatcher.getErrorMessage(error) });
+  }
+}
+
+export async function getCoinInfo(coinCode: any) {
+  try {
+    coinInfoBody.code = coinCode;
+    const coin = await axios.post(
+      `${baseUrl}coins/single/history`,
+      requestData.coinInfoBody,
+      config,
+    );
+    return coin.data;
+  } catch (error) {
+    errorCatcher.reportError({ message: errorCatcher.getErrorMessage(error) });
   }
 }
