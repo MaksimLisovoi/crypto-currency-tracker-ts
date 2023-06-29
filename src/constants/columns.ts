@@ -1,8 +1,7 @@
 import { GridColDef } from '@mui/x-data-grid';
 import { CoinBlock } from '../components/CoinBlock';
 import * as columnFuncs from '../services/columnFuncs';
-import { DayCell } from '../components/DayCell';
-import { HourCell } from '../components/HourCell';
+import { TimeCell } from '../components/TimeCell';
 
 export const columns: GridColDef[] = [
   { field: 'rank', headerName: '#', width: 50 },
@@ -49,7 +48,7 @@ export const columns: GridColDef[] = [
     type: 'number',
     width: 120,
     sortable: false,
-    renderCell: DayCell,
+    renderCell: props => TimeCell(props, 'day'),
   },
   {
     field: 'hour',
@@ -57,6 +56,6 @@ export const columns: GridColDef[] = [
     type: 'number',
     width: 120,
     sortable: false,
-    renderCell: HourCell,
+    renderCell: props => TimeCell(props, 'hour'),
   },
 ];
