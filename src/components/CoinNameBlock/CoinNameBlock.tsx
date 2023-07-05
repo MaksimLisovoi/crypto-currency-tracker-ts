@@ -1,12 +1,22 @@
 import { Avatar, Box, Link, Typography } from '@mui/material';
 
 import { GridRenderCellParams } from '@mui/x-data-grid';
-import { NavLink } from 'react-router-dom';
 
-export const CoinBlock = (props: GridRenderCellParams<any>) => {
+export const CoinNameBlock = (props: GridRenderCellParams<any>) => {
   const { row } = props;
   return (
-    <Link href={`coins/${row.code}`}>
+    <Link
+      sx={[
+        {
+          '&:hover': {
+            color: 'primary.main',
+          },
+        },
+      ]}
+      color="text.primary"
+      underline="hover"
+      href={`coins/${row.code}`}
+    >
       <Box
         sx={{
           display: 'flex',
@@ -24,6 +34,7 @@ export const CoinBlock = (props: GridRenderCellParams<any>) => {
           <Typography
             sx={{
               fontSize: 16,
+              color: 'text.primary',
             }}
           >
             {row.code}

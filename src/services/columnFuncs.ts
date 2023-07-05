@@ -38,9 +38,9 @@ const valueFormatter = (params: any, symbol: string, side: string = '') => {
 
   const formatToMillion = () => {
     if (valueStr.length > 9) {
-      return `${(value / 1000000000).toFixed(3)} M`;
+      return `${(value / 1000000000).toFixed(3)} B`;
     } else if (valueStr.length > 6) {
-      return `${(value / 1000000).toFixed(2)} B`;
+      return `${(value / 1000000).toFixed(2)} M`;
     }
   };
 

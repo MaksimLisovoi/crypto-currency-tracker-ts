@@ -1,36 +1,28 @@
-import { Container, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { getCoinInfo } from '../services/coinDbApi';
 import { useParams } from 'react-router-dom';
+import { Box } from '@mui/system';
+import { CoinPricesBlock } from '../components/CoinPage/CoinPricesBlock';
+import moment from 'moment';
+import { ChartBlock } from '../components/CoinPage/ChartBlock.tsx';
 
 export const Coin = () => {
-  const [coin, setCoin] = useState<any>(null);
-
   const { coinCode } = useParams();
 
-  useEffect(() => {
-    getCoinInfo(coinCode).then(setCoin);
-  }, [coinCode]);
-
   return (
-    <Container
-      component="main"
-      sx={{
-        paddingTop: 2,
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh',
-        justifyContent: 'center',
-      }}
-    >
-      <Typography component="h1" paddingBottom={3} fontSize={40} margin="0 auto">
-        Cryptocurrency Prices Live
+    <Box component="main" minHeight={'100vh'}>
+      <Typography
+        component="h1"
+        paddingBottom={3}
+        fontSize={26}
+        margin="0 auto"
+        textAlign={'center'}
+      >
+        {`${coinCode} Price`}
       </Typography>
-      {coin && (
-        <Typography component="h1" paddingBottom={3} fontSize={40} margin="0 auto">
-          {coin.code}
-        </Typography>
-      )}
-    </Container>
+      <CoinPricesBlock />
+      <ChartBlock />
+    </Box>
   );
 };

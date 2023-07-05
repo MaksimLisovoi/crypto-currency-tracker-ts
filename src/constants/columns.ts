@@ -1,5 +1,5 @@
 import { GridColDef } from '@mui/x-data-grid';
-import { CoinBlock } from '../components/CoinBlock';
+import { CoinNameBlock } from '../components/CoinNameBlock';
 import * as columnFuncs from '../services/columnFuncs';
 import { TimeCell } from '../components/TimeCell';
 
@@ -10,7 +10,7 @@ export const columns: GridColDef[] = [
     headerName: 'Coin',
     width: 100,
 
-    renderCell: CoinBlock,
+    renderCell: CoinNameBlock,
   },
   {
     field: 'rate',

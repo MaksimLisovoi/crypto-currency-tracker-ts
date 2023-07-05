@@ -26,6 +26,18 @@ export async function getCurrencyList(offset: number, limit: number) {
 export async function getCoinInfo(coinCode: any) {
   try {
     coinInfoBody.code = coinCode;
+    const coin = await axios.post(`${baseUrl}coins/single`, requestData.coinInfoBody, config);
+    return coin.data;
+  } catch (error) {
+    errorCatcher.reportError({ message: errorCatcher.getErrorMessage(error) });
+  }
+}
+
+export async function getCoinHistory(coinCode: any, dateFrom: number, dateTo: number) {
+  try {
+    coinInfoBody.code = coinCode;
+    coinInfoBody.start = dateFrom;
+    coinInfoBody.end = dateTo;
     const coin = await axios.post(
       `${baseUrl}coins/single/history`,
       requestData.coinInfoBody,
