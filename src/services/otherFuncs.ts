@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { checkTextColor } from './columnFuncs';
 
 const formatToMillion = (value: number) => {
@@ -21,4 +22,7 @@ const formatToPercent = (value: number) => {
   return { checkColor, formattedVal };
 };
 
-export { formatToMillion, formatToPercent };
+const formattedDateFull = (value: number) => moment.unix(value).format('lll');
+const formattedDateDay = (value: number) => moment.unix(value).format('D MMM');
+
+export { formatToMillion, formatToPercent, formattedDateFull, formattedDateDay };

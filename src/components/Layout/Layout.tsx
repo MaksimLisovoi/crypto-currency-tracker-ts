@@ -6,6 +6,7 @@ import { AppBar } from '../AppBar';
 import { Footer } from '../Footer';
 import { Toaster } from 'react-hot-toast';
 import { Container } from '@mui/system';
+import { Loader } from '../Loader/Loader';
 
 export const Layout = () => {
   return (
@@ -16,7 +17,7 @@ export const Layout = () => {
           minHeight: '100vh',
         }}
       >
-        <Suspense fallback={null}>
+        <Suspense fallback={<Loader size={60} height="100vh" />}>
           <Outlet />
         </Suspense>
         <Footer />

@@ -10,9 +10,14 @@ const listBody = {
 const coinInfoBody = {
   currency: 'USD',
   code: 'BTC',
-  start: 1617035100000,
-  end: 1617035400000,
   meta: true,
 };
 
-export { listBody, coinInfoBody };
+const coinHistoryBody = {
+  currency: 'USD',
+  code: 'BTC',
+  start: 1617035100000,
+  end: 1617035400000,
+};
+
+export { listBody, coinHistoryBody, coinInfoBody };

@@ -6,26 +6,39 @@ import { getCoinInfo } from '../../../services/coinDbApi';
 
 import { PercentBlock } from './PercentBlock';
 import { useParams } from 'react-router-dom';
+import { Loader } from '../../Loader/Loader';
 
 export const CoinPricesBlock = () => {
+  interface IcoinData {
+    isLoading: boolean;
+    coin: any;
+  }
+
   const { coinCode } = useParams();
-  //   const date = coin && coin?.history[0]?.date;
-  //   console.log(moment(date));
+  const [coinState, setCoinState] = useState<IcoinData>({
+    isLoading: false,
+    coin: null,
+  });
 
-  //   console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));
-  //   const dateNow = new Date();
-  //   console.log(dateNow);
-  //   console.log(dateNow.getTime());
-
-  //   console.log(moment.duration().asWeeks());
-
-  const [coin, setCoin] = useState<any>(null);
+  const { coin, isLoading } = coinState;
 
   useEffect(() => {
-    getCoinInfo(coinCode).then(setCoin);
+    setCoinState(prevState => ({ ...prevState, isLoading: true }));
+    getCoinInfo(coinCode).then(data =>
+      setCoinState(prevState => ({ ...prevState, coin: data, isLoading: false })),
+    );
   }, [coinCode]);
 
+  const obj = {};
+
+  console.log(!!coin);
+
+  // if (!coin) {
+  //   return;
+  // }
+
   return (
+    // <></>
     coin && (
       <Box
         sx={{
@@ -34,10 +47,17 @@ export const CoinPricesBlock = () => {
           p: 2,
           boxShadow: 2,
           borderRadius: 2,
+          height: 240,
         }}
       >
-        <NameBlock coin={coin} coinCode={coinCode} />
-        <PercentBlock coin={coin} />
+        {isLoading ? (
+          <Loader height="240px" />
+        ) : (
+          <>
+            <NameBlock coin={coin} coinCode={coinCode} />
+            <PercentBlock coin={coin} />
+          </>
+        )}
       </Box>
     )
   );

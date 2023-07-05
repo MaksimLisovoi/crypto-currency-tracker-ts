@@ -2,7 +2,7 @@ import { Box } from '@mui/system';
 import { Typography } from '@mui/material';
 import { DataTable } from '../components/DataTable';
 
-export const Home = () => {
+const Home = () => {
   return (
     <Box component="main">
       <Typography component="h1" paddingBottom={3} fontSize={40} margin="0 auto">
@@ -13,3 +13,5 @@ export const Home = () => {
     // </Container>
   );
 };
+
+export default Home;

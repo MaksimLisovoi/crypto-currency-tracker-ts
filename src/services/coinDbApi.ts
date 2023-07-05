@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as errorCatcher from './errorCatcher';
 import * as requestData from '../constants/requestData';
 
-const { listBody, coinInfoBody } = requestData;
+const { listBody, coinInfoBody, coinHistoryBody } = requestData;
 
 let baseUrl = `https://api.livecoinwatch.com/`;
 
@@ -35,12 +35,12 @@ export async function getCoinInfo(coinCode: any) {
 
 export async function getCoinHistory(coinCode: any, dateFrom: number, dateTo: number) {
   try {
-    coinInfoBody.code = coinCode;
-    coinInfoBody.start = dateFrom;
-    coinInfoBody.end = dateTo;
+    coinHistoryBody.code = coinCode;
+    coinHistoryBody.start = dateFrom;
+    coinHistoryBody.end = dateTo;
     const coin = await axios.post(
       `${baseUrl}coins/single/history`,
-      requestData.coinInfoBody,
+      requestData.coinHistoryBody,
       config,
     );
     return coin.data;

@@ -7,7 +7,7 @@ import { CoinPricesBlock } from '../components/CoinPage/CoinPricesBlock';
 import moment from 'moment';
 import { ChartBlock } from '../components/CoinPage/ChartBlock.tsx';
 
-export const Coin = () => {
+const Coin = () => {
   const { coinCode } = useParams();
 
   return (
@@ -26,3 +26,5 @@ export const Coin = () => {
     </Box>
   );
 };
+
+export default Coin;
