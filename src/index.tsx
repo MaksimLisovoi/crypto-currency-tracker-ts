@@ -13,6 +13,7 @@ declare module '@mui/material/styles' {
     border?: string;
     accent?: string;
     textColor?: string;
+    aqua: string;
   }
 }
 
@@ -25,6 +26,7 @@ const darkTheme = createTheme({
       border: '#1d2330',
       accent: '#343e56',
       textColor: '#8699b8',
+      aqua: '#47c2be',
     },
 
     common: {

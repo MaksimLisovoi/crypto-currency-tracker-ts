@@ -45,15 +45,15 @@ export const DataTable = () => {
       setPageState(prevState => ({ ...prevState, currencies: data, isLoading: false })),
     );
 
-    const timerId = setInterval(() => {
-      getCurrencyList(offset, limit).then(data =>
-        setPageState(prevState => ({ ...prevState, currencies: data })),
-      );
-    }, 4000);
+    // const timerId = setInterval(() => {
+    //   getCurrencyList(offset, limit).then(data =>
+    //     setPageState(prevState => ({ ...prevState, currencies: data })),
+    //   );
+    // }, 4000);
 
-    return () => {
-      clearInterval(timerId);
-    };
+    // return () => {
+    //   clearInterval(timerId);
+    // };
   }, [limit, offset]);
 
   useEffect(() => {
