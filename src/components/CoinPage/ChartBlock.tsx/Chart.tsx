@@ -6,7 +6,13 @@ import { CoinPricesProps, coinStateType, coinHistoryItem } from '../../../types'
 import { Box } from '@mui/system';
 import { chartTypes } from '../../../constants/chartTypes';
 
-import { formattedDateDay, formattedDateFull } from '../../../services/otherFuncs';
+import {
+  daysAmountForReq,
+  formatToMillion,
+  formattedDateDay,
+  formattedDateFull,
+  formattedDateHours,
+} from '../../../services/otherFuncs';
 import { ChartTypesBtns } from './ChartTypesBtns';
 import { Loader } from '../../Loader/Loader';
 
@@ -15,28 +21,13 @@ export const Chart = ({ coinCode }: CoinPricesProps) => {
     isLoading: true,
     coinHistory: {},
   });
-
   const history = coinState?.coinHistory?.history!;
   const isLoading = coinState.isLoading;
 
-  const [chartType, setChartType] = useState('7d');
+  const [chartType, setChartType] = useState(chartTypes.hour);
 
-  const daysAmountForReq = () => {
-    if (chartType === chartTypes.week) {
-      return 7;
-    }
-    if (chartType === chartTypes.months) {
-      return 30;
-    }
-    if (chartType === chartTypes.quarter) {
-      return 90;
-    }
-  };
-
-  const dateFrom = moment().subtract(daysAmountForReq(), 'd').unix() * 1000;
-  // const dateFrom = 1687980990000;
+  const dateFrom = moment().subtract(daysAmountForReq(chartType), 'd').unix() * 1000;
   const dateTo = moment().unix() * 1000;
-  // const dateTo = 1688585639000;
 
   useEffect(() => {
     setCoinHistory(prevState => ({ ...prevState, isLoading: true }));
@@ -45,7 +36,9 @@ export const Chart = ({ coinCode }: CoinPricesProps) => {
     );
   }, [coinCode, dateFrom, dateTo]);
 
-  const prices = history && history.map((el: coinHistoryItem) => +el.rate.toFixed(5));
+  const prices = history && history.map((el: coinHistoryItem) => +el.rate.toFixed(4));
+  const volume = history && history.map((el: coinHistoryItem) => el.volume);
+
   const dates = history && history.map((el: coinHistoryItem) => formattedDateFull(el.date / 1000));
   const arrFromSortedDates = Array.from(
     new Set(history && history.map((el: coinHistoryItem) => formattedDateDay(el.date / 1000))),
@@ -54,8 +47,13 @@ export const Chart = ({ coinCode }: CoinPricesProps) => {
   const quarterDates = arrFromSortedDates.filter(
     (el, idx, arr: string[]) => parseInt(el) === parseInt(arr[0]),
   );
+  const hours = history && history.map((el: coinHistoryItem) => formattedDateHours(el.date / 1000));
+  const sortedHours = hours?.filter((_, idx) => idx % 6 === 0);
 
   const displayDateForAxis = () => {
+    if (chartType === '24h') {
+      return sortedHours;
+    }
     if (chartType === '7d') {
       return arrFromSortedDates;
     }
@@ -67,12 +65,10 @@ export const Chart = ({ coinCode }: CoinPricesProps) => {
     }
   };
 
-  return (
-    // <></>
-    history &&
-    (isLoading ? (
-      <Loader size={60} height={'500px'} />
-    ) : (
+  return isLoading ? (
+    <Loader size={60} height={'500px'} />
+  ) : (
+    history && (
       <Box>
         <ChartTypesBtns chartType={chartType} setChartType={setChartType} />
 
@@ -82,16 +78,39 @@ export const Chart = ({ coinCode }: CoinPricesProps) => {
             ' .MuiMarkElement-root': {
               display: 'none',
             },
+            '.MuiAreaElement-root': {
+              fillOpacity: '10%',
+            },
+            '.css-1qzcpgg-MuiLineElement-root': {
+              display: 'none',
+            },
+            '.css-1v0rhnk-MuiChartsLegend-mark': {
+              fillOpacity: '10%',
+            },
           }}
-          height={500}
+          height={450}
           series={[
-            { xAxisKey: 'datesFromApi', data: prices, label: 'Price', stack: 'total' },
-            //   { data: uData, label: 'uv' },
+            {
+              // xAxisKey: 'pricesFromApi',
+              yAxisKey: 'leftAxisId',
+              data: prices,
+              label: 'Price',
+              valueFormatter: price => {
+                return `$${price}`;
+              },
+            },
+            {
+              yAxisKey: 'rightAxisId',
+              data: volume,
+              label: 'Volume',
+              valueFormatter: volume => {
+                return formatToMillion(volume);
+              },
+              area: true,
+            },
           ]}
-          // xAxis={[{ scaleType: 'band', data: dates, min: 10, max: 20 }]}
           xAxis={[
             {
-              id: 'datesFromApi',
               data: dates,
               scaleType: 'point',
             },
@@ -101,9 +120,29 @@ export const Chart = ({ coinCode }: CoinPricesProps) => {
               scaleType: 'point',
             },
           ]}
-          bottomAxis={{ axisId: 'myCustomAxis', disableTicks: true }}
+          yAxis={[
+            {
+              id: 'leftAxisId',
+              valueFormatter: price => {
+                return `$${price}`;
+              },
+            },
+            {
+              id: 'rightAxisId',
+              valueFormatter: volume => {
+                return formatToMillion(volume);
+              },
+            },
+          ]}
+          bottomAxis={{ axisId: 'myCustomAxis', disableTicks: true, disableLine: true }}
+          rightAxis={{
+            axisId: 'rightAxisId',
+            disableTicks: true,
+            disableLine: true,
+          }}
+          leftAxis={{ axisId: 'leftAxisId', disableTicks: true, disableLine: true }}
         />
       </Box>
-    ))
+    )
   );
 };

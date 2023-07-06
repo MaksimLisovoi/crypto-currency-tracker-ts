@@ -31,11 +31,11 @@ export type currency = {
 };
 
 export type coinHistoryItem = {
-  cap?: number;
+  cap: number;
   date: number;
-  liquidity?: number;
+  liquidity: number;
   rate: number;
-  volume?: number;
+  volume: number;
 };
 
 export type coinHistoryType = {

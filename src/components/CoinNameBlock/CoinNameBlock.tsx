@@ -15,7 +15,7 @@ export const CoinNameBlock = (props: GridRenderCellParams<any>) => {
       ]}
       color="text.primary"
       underline="hover"
-      href={`${row.code}`}
+      href={`coins/${row.code}`}
     >
       <Box
         sx={{

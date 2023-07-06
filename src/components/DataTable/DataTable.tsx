@@ -110,6 +110,7 @@ export const DataTable = () => {
         keepNonExistentRowsSelected
         //
         sx={{
+          // minHeight: '600px',
           mt: 2,
           p: 2,
           boxShadow: 2,

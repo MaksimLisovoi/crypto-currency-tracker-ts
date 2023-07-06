@@ -11,7 +11,7 @@ export const ChartTypesBtns = ({ chartType, setChartType }: chartTypeState) => {
 
   const renderBtns = () =>
     chartTypesArr.map(type => (
-      <ToggleButton key={type} value={type} aria-label="left aligned">
+      <ToggleButton key={type} value={type} aria-label="left aligned" sx={{ pt: '6px', pb: '6px' }}>
         {type}
       </ToggleButton>
     ));
