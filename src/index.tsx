@@ -39,7 +39,7 @@ const darkTheme = createTheme({
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/movie-web-app">
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <App />
