@@ -1,8 +1,6 @@
 import { Box } from '@mui/system';
 import { Avatar, Typography } from '@mui/material';
 import * as otherFuncs from '../../../services/otherFuncs';
-import { useEffect, useState } from 'react';
-import { getCoinInfo } from '../../../services/coinDbApi';
 
 import { NameBlockProps } from '../../../types';
 

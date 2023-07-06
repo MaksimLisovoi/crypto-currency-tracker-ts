@@ -1,10 +1,7 @@
 import { Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { getCoinInfo } from '../services/coinDbApi';
 import { useParams } from 'react-router-dom';
 import { Box } from '@mui/system';
 import { CoinPricesBlock } from '../components/CoinPage/CoinPricesBlock';
-import moment from 'moment';
 import { ChartBlock } from '../components/CoinPage/ChartBlock.tsx';
 
 const Coin = () => {
