@@ -14,8 +14,8 @@ export const App = () => {
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="coins/:coinCode" element={<Coin />} />
+          <Route index element={<Home />}></Route>
+          <Route path=":coinCode" element={<Coin />} />
         </Route>
       </Routes>
     </>
