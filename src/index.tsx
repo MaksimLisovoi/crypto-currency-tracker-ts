@@ -9,10 +9,11 @@ import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 
 declare module '@mui/material/styles' {
   interface SimplePaletteColorOptions {
-    tableBg?: string;
-    border?: string;
-    accent?: string;
-    textColor?: string;
+    tableBg: string;
+    border: string;
+    accent: string;
+    textColor: string;
+    aqua: string;
   }
 }
 
@@ -25,6 +26,7 @@ const darkTheme = createTheme({
       border: '#1d2330',
       accent: '#343e56',
       textColor: '#8699b8',
+      aqua: '#47c2be',
     },
 
     common: {
