@@ -3,15 +3,14 @@ import { useEffect, useState } from 'react';
 import { columns } from '../../constants/columns';
 import * as localStorageService from '../../services/storage';
 import { getCurrencyList } from '../../services/coinDbApi';
-import { CustomGridToolbar } from '../CustomGridToolbar';
-import { pageState, currency } from '../../types';
+import { pageState } from '../../types';
 
 export const DataTable = () => {
   const apiRef = useGridApiRef();
 
   const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
-  const [shouldShowWatchList, setShouldShowWatchList] = useState(false);
-  const [selectedRows, setSelectedRows] = useState<currency[]>([]);
+  // const [shouldShowWatchList, setShouldShowWatchList] = useState(false);
+  // const [selectedRows, setSelectedRows] = useState<currency[]>([]);
 
   // if (selectedRows && selectedRows.length > 0) {
   //   localStorageService.save('selectedRows', selectedRows);
@@ -23,9 +22,9 @@ export const DataTable = () => {
   //   setSelectedRows(selectedRowsFromLS);
   // }, []);
 
-  const handleSwitchWatchList = () => {
-    setShouldShowWatchList(!shouldShowWatchList);
-  };
+  // const handleSwitchWatchList = () => {
+  //   setShouldShowWatchList(!shouldShowWatchList);
+  // };
 
   const [pageState, setPageState] = useState<pageState>({
     isLoading: false,

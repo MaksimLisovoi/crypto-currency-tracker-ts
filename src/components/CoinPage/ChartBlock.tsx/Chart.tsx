@@ -1,6 +1,6 @@
 import { LineChart } from '@mui/x-charts/LineChart';
 import moment from 'moment';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getCoinHistory } from '../../../services/coinDbApi';
 import { CoinPricesProps, coinStateType, coinHistoryItem } from '../../../types';
 import { Box } from '@mui/system';
