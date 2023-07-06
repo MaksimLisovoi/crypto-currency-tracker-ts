@@ -24,18 +24,21 @@ export const CoinPricesBlock = () => {
 
   useEffect(() => {
     setCoinState(prevState => ({ ...prevState, isLoading: true }));
+
     getCoinInfo(coinCode).then(data =>
       setCoinState(prevState => ({ ...prevState, coin: data, isLoading: false })),
     );
+
+    const timerId = setInterval(() => {
+      getCoinInfo(coinCode).then(data =>
+        setCoinState(prevState => ({ ...prevState, coin: data, isLoading: false })),
+      );
+    }, 4000);
+
+    return () => {
+      clearInterval(timerId);
+    };
   }, [coinCode]);
-
-  const obj = {};
-
-  console.log(!!coin);
-
-  // if (!coin) {
-  //   return;
-  // }
 
   return (
     // <></>
@@ -47,7 +50,7 @@ export const CoinPricesBlock = () => {
           p: 2,
           boxShadow: 2,
           borderRadius: 2,
-          height: 240,
+          minHeight: 240,
         }}
       >
         {isLoading ? (

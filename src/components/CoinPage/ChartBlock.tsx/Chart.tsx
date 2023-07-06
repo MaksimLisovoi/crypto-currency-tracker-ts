@@ -2,33 +2,34 @@ import { LineChart } from '@mui/x-charts/LineChart';
 import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
 import { getCoinHistory } from '../../../services/coinDbApi';
-import { CoinPricesProps } from '../../../types';
+import { CoinPricesProps, coinStateType, coinHistoryItem } from '../../../types';
 import { Box } from '@mui/system';
+import { chartTypes } from '../../../constants/chartTypes';
 
 import { formattedDateDay, formattedDateFull } from '../../../services/otherFuncs';
 import { ChartTypesBtns } from './ChartTypesBtns';
 import { Loader } from '../../Loader/Loader';
 
 export const Chart = ({ coinCode }: CoinPricesProps) => {
-  interface IcoinData {
-    isLoading: boolean;
-    coinHistory: any;
-  }
-  const [coinState, setCoinHistory] = useState<IcoinData>({
-    isLoading: false,
+  const [coinState, setCoinHistory] = useState<coinStateType>({
+    isLoading: true,
     coinHistory: {},
   });
-  const history = coinState.coinHistory.history;
+
+  const history = coinState?.coinHistory?.history!;
   const isLoading = coinState.isLoading;
 
   const [chartType, setChartType] = useState('7d');
 
   const daysAmountForReq = () => {
-    if (chartType === '7d') {
+    if (chartType === chartTypes.week) {
       return 7;
     }
-    if (chartType === '1m') {
+    if (chartType === chartTypes.months) {
       return 30;
+    }
+    if (chartType === chartTypes.quarter) {
+      return 90;
     }
   };
 
@@ -44,80 +45,65 @@ export const Chart = ({ coinCode }: CoinPricesProps) => {
     );
   }, [coinCode, dateFrom, dateTo]);
 
-  if (!history) {
-    return;
-  }
-
-  const prices = history.map((el: any) => +el.rate.toFixed(5));
-  const dates = history.map((el: any) => formattedDateFull(el.date / 1000));
+  const prices = history && history.map((el: coinHistoryItem) => +el.rate.toFixed(5));
+  const dates = history && history.map((el: coinHistoryItem) => formattedDateFull(el.date / 1000));
   const arrFromSortedDates = Array.from(
-    new Set(history.map((el: any) => formattedDateDay(el.date / 1000))),
+    new Set(history && history.map((el: coinHistoryItem) => formattedDateDay(el.date / 1000))),
   );
   const monthDates = arrFromSortedDates.filter((_, idx) => idx % 2);
-
-  // const prices = useMemo(() => {
-  //   if (!history) {
-  //     return;
-  //   }
-  //   return history.map((el: any) => +el.rate.toFixed(2));
-  // }, [history]);
-
-  // const dayDates = useMemo(() => {
-  //   if (!history) {
-  //     return;
-  //   }
-  //   return history.map((el: any) => formattedDateDay(el.date / 1000));
-  // }, [history]);
-
-  // const arrFromSortedDates = Array.from(new Set(dayDates));
-
-  // const monthDates = arrFromSortedDates.filter((_, idx) => idx % 2);
+  const quarterDates = arrFromSortedDates.filter(
+    (el, idx, arr: string[]) => parseInt(el) === parseInt(arr[0]),
+  );
 
   const displayDateForAxis = () => {
     if (chartType === '7d') {
       return arrFromSortedDates;
     }
-    if (chartType === '1m') {
+    if (chartType === '30d') {
       return monthDates;
+    }
+    if (chartType === '90d') {
+      return quarterDates;
     }
   };
 
   return (
-    history && (
+    // <></>
+    history &&
+    (isLoading ? (
+      <Loader size={60} height={'500px'} />
+    ) : (
       <Box>
         <ChartTypesBtns chartType={chartType} setChartType={setChartType} />
-        {isLoading ? (
-          <Loader size={60} height={'500px'} />
-        ) : (
-          <LineChart
-            sx={{
-              '--ChartsLegend-itemWidth': '200px',
-              ' .MuiMarkElement-root': {
-                display: 'none',
-              },
-            }}
-            height={500}
-            series={[
-              { xAxisKey: 'datesFromApi', data: prices, label: 'Price', stack: 'total' },
-              //   { data: uData, label: 'uv' },
-            ]}
-            // xAxis={[{ scaleType: 'band', data: dates, min: 10, max: 20 }]}
-            xAxis={[
-              {
-                id: 'datesFromApi',
-                data: dates,
-                scaleType: 'point',
-              },
-              {
-                id: 'myCustomAxis',
-                data: displayDateForAxis(),
-                scaleType: 'point',
-              },
-            ]}
-            bottomAxis={{ axisId: 'myCustomAxis', disableTicks: true }}
-          />
-        )}
+
+        <LineChart
+          sx={{
+            '--ChartsLegend-itemWidth': '200px',
+            ' .MuiMarkElement-root': {
+              display: 'none',
+            },
+          }}
+          height={500}
+          series={[
+            { xAxisKey: 'datesFromApi', data: prices, label: 'Price', stack: 'total' },
+            //   { data: uData, label: 'uv' },
+          ]}
+          // xAxis={[{ scaleType: 'band', data: dates, min: 10, max: 20 }]}
+          xAxis={[
+            {
+              id: 'datesFromApi',
+              data: dates,
+              scaleType: 'point',
+            },
+            {
+              id: 'myCustomAxis',
+              data: displayDateForAxis(),
+              scaleType: 'point',
+            },
+          ]}
+          bottomAxis={{ axisId: 'myCustomAxis', disableTicks: true }}
+        />
       </Box>
-    )
+    ))
   );
 };

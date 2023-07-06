@@ -4,18 +4,14 @@ import { columns } from '../../constants/columns';
 import * as localStorageService from '../../services/storage';
 import { getCurrencyList } from '../../services/coinDbApi';
 import { CustomGridToolbar } from '../CustomGridToolbar';
+import { pageState, currency } from '../../types';
 
 export const DataTable = () => {
-  interface IpageData {
-    isLoading: boolean;
-    currencies: any;
-  }
-
   const apiRef = useGridApiRef();
 
   const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
   const [shouldShowWatchList, setShouldShowWatchList] = useState(false);
-  const [selectedRows, setSelectedRows] = useState<any[]>([]);
+  const [selectedRows, setSelectedRows] = useState<currency[]>([]);
 
   // if (selectedRows && selectedRows.length > 0) {
   //   localStorageService.save('selectedRows', selectedRows);
@@ -31,7 +27,7 @@ export const DataTable = () => {
     setShouldShowWatchList(!shouldShowWatchList);
   };
 
-  const [pageState, setPageState] = useState<IpageData>({
+  const [pageState, setPageState] = useState<pageState>({
     isLoading: false,
     currencies: [],
   });
@@ -50,15 +46,15 @@ export const DataTable = () => {
       setPageState(prevState => ({ ...prevState, currencies: data, isLoading: false })),
     );
 
-    // const timerId = setInterval(() => {
-    //   getCurrencyList().then(data =>
-    //     setPageState(prevState => ({ ...prevState, currencies: data })),
-    //   );
-    // }, 4000);
+    const timerId = setInterval(() => {
+      getCurrencyList(offset, limit).then(data =>
+        setPageState(prevState => ({ ...prevState, currencies: data })),
+      );
+    }, 4000);
 
-    // return () => {
-    //   clearInterval(timerId);
-    // };
+    return () => {
+      clearInterval(timerId);
+    };
   }, [limit, offset]);
 
   useEffect(() => {
@@ -69,15 +65,15 @@ export const DataTable = () => {
   return (
     <>
       <DataGrid
-        slots={{
-          toolbar: CustomGridToolbar,
-        }}
-        slotProps={{
-          toolbar: {
-            handleSwitchWatchList: handleSwitchWatchList,
-            shouldShowWatchList: shouldShowWatchList,
-          },
-        }}
+        // slots={{
+        //   toolbar: CustomGridToolbar,
+        // }}
+        // slotProps={{
+        //   toolbar: {
+        //     handleSwitchWatchList: handleSwitchWatchList,
+        //     shouldShowWatchList: shouldShowWatchList,
+        //   },
+        // }}
         //
         apiRef={apiRef}
         autoHeight

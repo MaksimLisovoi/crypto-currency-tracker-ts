@@ -61,10 +61,10 @@ export const NameBlock = ({ coin, coinCode }: NameBlockProps) => {
         </Box>
       </Box>
 
-      <Box component="ul" display={'flex'} pt={2} ml={-2} mr={-2}>
+      <Box component="ul" display={'flex'} flexWrap={'wrap'} pt={2} ml={-2} mr={-2} mt={-1} mb={-1}>
         {volumeList.map(item => {
           return (
-            <Box key={item.name} component="li" pr={2} pl={2}>
+            <Box key={item.name} component="li" pr={2} pl={2} pb={1} pt={1}>
               <Typography color={'primary.textColor'} fontSize={13}>
                 {item.name}
               </Typography>

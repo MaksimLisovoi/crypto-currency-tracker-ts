@@ -1,4 +1,5 @@
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { chartTypes } from '../../../constants/chartTypes';
 
 type chartTypeState = {
   chartType: string;
@@ -6,10 +7,10 @@ type chartTypeState = {
 };
 
 export const ChartTypesBtns = ({ chartType, setChartType }: chartTypeState) => {
-  const chartTypes = ['7d', '1m'];
+  const chartTypesArr: string[] = Object.values(chartTypes);
 
   const renderBtns = () =>
-    chartTypes.map(type => (
+    chartTypesArr.map(type => (
       <ToggleButton key={type} value={type} aria-label="left aligned">
         {type}
       </ToggleButton>
@@ -26,7 +27,7 @@ export const ChartTypesBtns = ({ chartType, setChartType }: chartTypeState) => {
       exclusive
       onChange={handleChartType}
       aria-label="chart type"
-      size="large"
+      size="medium"
       sx={{ width: '60px' }}
     >
       {renderBtns()}

@@ -17,7 +17,7 @@ export const ChartBlock = () => {
         boxShadow: 2,
         borderRadius: 2,
         width: '100%',
-        height: '100%',
+        minHeight: '600px',
       }}
     >
       <Typography component="h2" fontSize={28}>
