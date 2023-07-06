@@ -8,33 +8,6 @@ import './index.css';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 
 declare module '@mui/material/styles' {
-  // interface Theme {
-  //   status: {
-  //     danger: React.CSSProperties['color'];
-  //   };
-  // }
-
-  // interface ThemeOptions {
-  //   status: {
-  //     danger: React.CSSProperties['color'];
-  //   };
-  // }
-
-  // interface Palette {
-  //   tableBg: Palette['primary'];
-  // }
-
-  // interface PaletteOptions {
-  //   tableBg: PaletteOptions['primary'];
-  // }
-
-  interface PaletteColor {
-    tableBg?: string;
-    border?: string;
-    accent?: string;
-    textColor?: string;
-  }
-
   interface SimplePaletteColorOptions {
     tableBg?: string;
     border?: string;
