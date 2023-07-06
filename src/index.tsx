@@ -39,7 +39,7 @@ const darkTheme = createTheme({
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
-    <BrowserRouter basename="/">
+    <BrowserRouter basename="/crypto-currency-tracker-ts">
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <App />
