@@ -8,7 +8,7 @@ export const columns: GridColDef[] = [
   {
     field: 'name',
     headerName: 'Coin',
-    width: 100,
+    width: 120,
 
     renderCell: CoinNameBlock,
   },

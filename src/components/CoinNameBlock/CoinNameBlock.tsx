@@ -9,7 +9,7 @@ export const CoinNameBlock = (props: GridRenderCellParams<any>) => {
       sx={[
         {
           '&:hover': {
-            color: 'primary.main',
+            color: 'primary.aqua',
           },
         },
       ]}

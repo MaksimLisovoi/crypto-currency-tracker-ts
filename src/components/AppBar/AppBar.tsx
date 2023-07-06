@@ -12,7 +12,8 @@ export const AppBar = () => {
         display: 'flex',
         justifyContent: 'space-between',
         mb: 4,
-        p: 2,
+        pl: 2,
+        pr: 2,
         borderBottom: '1px solid #2a363b',
       }}
     >
