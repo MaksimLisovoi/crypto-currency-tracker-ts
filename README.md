@@ -2,6 +2,7 @@
   * Axios (Promise based HTTP client)
   * Material UI
   * Material UI X Data Grid
+  * Material UI X Line Chart
 
 ## Build Setup
 
